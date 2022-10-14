@@ -20,6 +20,8 @@ function Low({ hourValue, setHourValue }) {
         { label: '6h', value: '6' },
         { label: '8h', value: '8' },
       ];
+
+    // обьект события (event) держит в себе информацию о элементе над которым было совршено действие
     function handleOnChange(event) {
         const hour = event.currentTarget.value;
         const newDate = new Date().setHours(23 - hour,59,59,999);
@@ -32,7 +34,11 @@ function Low({ hourValue, setHourValue }) {
     };
     
 
-     
+     // oneChange = это тригер события (event)
+     // события приходят от браузера а к браузеру приходят от пользователя
+     // onChange запуксается когда пользователь сделал именения в imput елементах, в данном месте это (Radio Button)
+     // onChange запуксает функции которые мы называем обработчиками. В обработчик тригер события отправляет обьект события (event)
+     // триггеры событий всегда начинаются с 'on'.
     return (
       <>
         <Row>
