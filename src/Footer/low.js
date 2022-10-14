@@ -3,11 +3,15 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Countdown from 'react-countdown';
+import {useState} from 'react';
 
 
 function Low({ hourValue, setHourValue }) {
 
     const endOfDay = new Date().setHours(23,59,59,999);
+    const [ showElement, setShowElement ] = useState ('countdown');
+    const [time, setTime] = useState (endOfDay);
+
     const cheapHours = [
         { label: '1h', value: '1' },
         { label: '2h', value: '2' },
@@ -17,16 +21,26 @@ function Low({ hourValue, setHourValue }) {
         { label: '8h', value: '8' },
       ];
     function handleOnChange(event) {
+        const hour = event.currentTarget.value;
+        const newDate = new Date().setHours(23 - hour,59,59,999);
+        if(newDate - Date.now() <= 0) { 
+        setShowElement ('right now'); 
+        }else  { setShowElement ('countdown');
+        };
+        setTime(newDate);
         setHourValue(event.currentTarget.value);
-        
-    }
+    };
+    
+
+     
     return (
       <>
         <Row>
           <Col>
-            <ButtonGroup>
+            <ButtonGroup className="button">
               {cheapHours.map((hour) => (
                 <ToggleButton
+                  className="duration"
                   key={hour.value}
                   type="radio"
                   name="hour"
@@ -48,10 +62,10 @@ function Low({ hourValue, setHourValue }) {
         </Row>
 
         <Row>
-          <Col>
-            <Countdown date={endOfDay} />        
+          <Col>   
+            {showElement === 'countdown' ? <Countdown date = {time} /> : <h3>Right Now!</h3>}
           </Col>
-        </Row>
+        </Row>  
 
         <Row>
           <Col>
