@@ -37,7 +37,7 @@ function Low({ hourValue, setHourValue }) {
       <>
         <Row>
           <Col>
-            <ButtonGroup className="button">
+            <ButtonGroup className="hourButton">
               {cheapHours.map((hour) => (
                 <ToggleButton
                   className="duration"
