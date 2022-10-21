@@ -8,9 +8,9 @@ import ErrorModal from '../ErrorModal';
 
 
 
-function Header (props)  {
+function Header ({currentPrice, setCurrentPrice, radioValue, setRadioValue})  {
  
-  const [price, setPrice] = useState(0);
+ 
   const [showError, setShowError] = useState (false);
   const [errorMessage, setErrorMessage] = useState ('');
 
@@ -19,13 +19,13 @@ function Header (props)  {
     (async function () {
       try {
         const response = await getCurrentPrice();
-        setPrice(response.data[0].price);
+        setCurrentPrice(response.data[0].price);
       } catch (error) {
         setShowError(true);
         setErrorMessage(error.message);
       }
     })();
-  }, []);
+  }, [setCurrentPrice]);
   
 
 
@@ -37,7 +37,7 @@ const radios = [
 
 function handeleOnChange(event) {
   
-  props.setRadioValue(event.currentTarget.value);
+  setRadioValue(event.currentTarget.value);
 };
 
 return (
@@ -57,7 +57,7 @@ return (
                   variant={idx % 2 ?  'outline-danger' : 'outline-success'}
                   name="radio"
                   value={radio.value}
-                  checked={props.radioValue === radio.value}
+                  checked={radioValue === radio.value}
                   onChange={handeleOnChange}
                   >
                   {radio.name} 
@@ -65,7 +65,7 @@ return (
              ))} 
           </ButtonGroup>
         </Col>
-      <Col>HIND {price} €/MWh </Col>
+      <Col>HIND {Math.round(currentPrice /10)} €/KWh </Col>
       </Row>
       <ErrorModal errorMessage={errorMessage} show={showError} setShow={setShowError} />
       </>
