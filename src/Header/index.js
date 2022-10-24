@@ -1,6 +1,8 @@
 import { useState, useEffect} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import { getCurrentPrice } from '../services/apiService';
@@ -8,12 +10,25 @@ import ErrorModal from '../ErrorModal';
 
 
 
-function Header ({currentPrice, setCurrentPrice, radioValue, setRadioValue})  {
+
+function Header (
+  {currentPrice,
+     setCurrentPrice,
+      radioValue,
+       setRadioValue,
+        selectedCountry,
+        setSelectedCountry})  {
  
- 
+  
   const [showError, setShowError] = useState (false);
   const [errorMessage, setErrorMessage] = useState ('');
 
+  const countries = [
+    {key:'ee', title: 'Eesti'},
+    {key:'fi', title: 'Soome'},
+    {key:'lt', title: 'Leedu'},
+    {key:'lv', title: 'Läti'}
+  ];
 
   useEffect(() => {
     (async function () {
@@ -35,15 +50,33 @@ const radios = [
   
 ];
 
-function handeleOnChange(event) {
-  
+function handeleOnChangePrice(event) {
   setRadioValue(event.currentTarget.value);
 };
+
+function handeleOnSelectCountry (key, event) {
+  setSelectedCountry(countries.find(country => country.key === key));
+};
+
+
 
 return (
 <>
 <Row>
-<Col> <h3>Elektrikell</h3> </Col>
+  <Col> <h3>Elektrikell</h3> </Col>
+    <Col> 
+      <DropdownButton
+            as={ButtonGroup}
+            key='Secondary'
+            id={`dropdown-variants-${'Secondary'}`}
+            variant={'Secondary'.toLowerCase()}
+            title={selectedCountry.title}
+            onSelect={handeleOnSelectCountry}
+          > 
+            {countries.map(country => <Dropdown.Item key={country.key} eventKey={country.key}>{country.title}</Dropdown.Item>)}
+            
+      </DropdownButton>
+      </Col>
   </Row>
       <Row>
     <Col>Status</Col>
@@ -58,7 +91,7 @@ return (
                   name="radio"
                   value={radio.value}
                   checked={radioValue === radio.value}
-                  onChange={handeleOnChange}
+                  onChange={handeleOnChangePrice}
                   >
                   {radio.name} 
                 </ToggleButton>
