@@ -46,9 +46,10 @@ function Body(
             timestamp: dataObject.timestamp,
           };
         });
+        if(!data) {
         setData(priceData);
-        
-
+          return;
+        }
         const hourNowI = priceData.findIndex((dataObject) => {
           return dataObject.x === moment().format("HH");
         });
@@ -64,7 +65,7 @@ function Body(
             areaPrices.push({ result, i });
           }
           return;
-        });
+        }); 
         areaPrices.sort((a, b) => a.result - b.result);
         if (radioValue === 'low'){
           setBestTimeRange({
