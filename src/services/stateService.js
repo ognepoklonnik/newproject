@@ -33,7 +33,7 @@ const reducer = createReducer(initialState, {
     state.hourValue = action.payload;
   },
   [setCurrentPrice]: (state, action) => {
-    state.CurrentPrice = action.payload;
+    state.currentPrice = action.payload;
   },
   [setRadioValue]: (state, action) => {
     state.radioValue = action.payload;

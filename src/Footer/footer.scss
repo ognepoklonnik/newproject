@@ -1,3 +1,5 @@
+@import "~bootstrap/scss/bootstrap";
+
 #footer {
     .btn-group {
         flex-wrap: wrap;
@@ -5,8 +7,28 @@
             margin: 0 20px;
             padding: 10px 15px;
             border-radius: 15px;
-            border: 2px solid black; 
+            border: 3px solid black;
+            font-weight: bolder; 
+            
         }
         }
        
     }
+
+
+    .duration {
+        color: rgb(102, 56, 56);
+        background-color: orange;
+    }
+
+    .besttime { 
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-weight: 700;
+    }
+
+    .timer {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-weight: 1000;
+        font-size: 48px;
+    }
+

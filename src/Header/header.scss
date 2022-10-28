@@ -1,0 +1,13 @@
+@import "~bootstrap/scss/bootstrap";
+
+
+.status {
+    font-size: 18px;
+    border: 1px solid black;
+    margin: 0;
+    padding: 0;
+    width: 70px;
+    display: block;
+    text-align: center;
+    background-image: radial-gradient( circle farthest-corner at 10% 20%, #5dfe60 0%, #28d1ab 90% );
+}

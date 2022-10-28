@@ -8,7 +8,9 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer, ReferenceLine, ReferenceArea
+  ResponsiveContainer, 
+  ReferenceLine, 
+  ReferenceArea
 } from "recharts";
 import { getPriceData } from "../services/apiService";
 import ErrorModal from "../ErrorModal";
@@ -19,7 +21,7 @@ import { setBestTimeRange, setWorstTimeRange } from "../services/stateService";
 function Body() {
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [data, setData] = useState(null);
+  const [data, setData] = useState({});
   const [response, setResponse] = useState(null);
   const [hourNowI, setHourNowI] = useState(0);
   const [x1, setX1] = useState(0);
@@ -29,8 +31,7 @@ function Body() {
   const radioValue = useSelector((state) => state.radioValue);
   const selectedCountry = useSelector((state) => state.selectedCountry); 
   
-  
-  const dispatch = useDispatch();
+  const dispach = useDispatch();
   
   useEffect(() => {
     (async function () {
@@ -47,9 +48,9 @@ function Body() {
             timestamp: dataObject.timestamp,
           };
         });
-        if(!data) {
-        setData(priceData);
-          return;
+        if(!data.country || (data.country && data.country !== selectedCountry.key)) {
+        setData({priceData, country: selectedCountry.key});
+          return
         }
         const hourNowI = priceData.findIndex((dataObject) => {
           return dataObject.x === moment().format("HH");
@@ -69,7 +70,7 @@ function Body() {
         }); 
         areaPrices.sort((a, b) => a.result - b.result);
         if (radioValue === 'low'){
-          dispatch(setBestTimeRange({
+          dispach(setBestTimeRange({
           from: futureData[areaPrices[0].i + hourValue].x,
           until: futureData[areaPrices[0].i + hourValue].x,
           timestamp: futureData[areaPrices[0].i].timestamp,
@@ -77,7 +78,7 @@ function Body() {
           }));
         } else {
           areaPrices.reverse();
-          dispatch(setWorstTimeRange({
+          dispach(setWorstTimeRange({
             from: futureData[areaPrices[0].i + hourValue].x,
             until: futureData[areaPrices[0].i + hourValue].x,
             worstPrice: futureData[areaPrices[0].i].y,
@@ -93,7 +94,8 @@ function Body() {
         setErrorMessage(error.message);
       }
     })();
-  }, [hourValue, data, dispatch, radioValue, selectedCountry, response ]);
+  }, [hourValue, data, dispach, radioValue, selectedCountry, response ]);
+
 
   return (
     <>
@@ -103,7 +105,7 @@ function Body() {
             <LineChart
               width={500}
               height={300}
-              data={data}
+              data={data.priceData}
               margin={{
                 top: 5,
                 right: 30,

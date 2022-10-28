@@ -9,8 +9,8 @@ import { getCurrentPrice } from '../services/apiService';
 import ErrorModal from '../ErrorModal';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentPrice, setRadioValue, setSelectedCountry  } from '../services/stateService';
-
-
+import './header.scss';
+import Logo from './Logo.png';
 
 
 function Header ()  {
@@ -20,7 +20,7 @@ function Header ()  {
   const currentPrice = useSelector((state) => state.currentPrice); 
   const radioValue = useSelector((state) => state.radioValue);
   const selectedCountry = useSelector((state) => state.selectedCountry);
-
+  
   const dispach = useDispatch();
 
   const countries = [
@@ -33,14 +33,16 @@ function Header ()  {
   useEffect(() => {
     (async function () {
       try {
-        const response = await getCurrentPrice();
+        const response = await getCurrentPrice(selectedCountry);
         dispach(setCurrentPrice(response.data[0].price));
+        console.log(response.data);
       } catch (error) {
         setShowError(true);
         setErrorMessage(error.message);
       }
     })();
-  }, [dispach]);
+  
+  }, [dispach, selectedCountry]);
   
 
 
@@ -58,12 +60,19 @@ function handeleOnSelectCountry (key, event) {
   dispach(setSelectedCountry(countries.find(country => country.key === key)));
 };
 
+console.log(currentPrice);
+
 
 
 return (
 <>
 <Row>
-  <Col> <h3>Elektrikell</h3> </Col>
+  <Col> 
+    <h3 >
+    <img src={Logo} width="300" alt='Elektrikell-logo'/>
+
+    </h3>
+  </Col>
     <Col > 
       <DropdownButton className="float-end"
             as={ButtonGroup}
@@ -79,7 +88,7 @@ return (
       </Col>
   </Row>
       <Row>
-    <Col>Status</Col>
+    <Col> <div className='status'>Status</div></Col>
         <Col className="text-center">
           <ButtonGroup >
             {radios.map((radio, idx) => (
@@ -98,7 +107,7 @@ return (
              ))} 
           </ButtonGroup>
         </Col>
-      <Col className="text-end" >HIND {Math.round(currentPrice /10)} €/KWh </Col>
+      <Col className="text-end" >HIND {currentPrice} €/KWh </Col>
       </Row>
       <ErrorModal errorMessage={errorMessage} show={showError} setShow={setShowError} />
       </>

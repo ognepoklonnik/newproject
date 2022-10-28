@@ -70,7 +70,7 @@ function Low() {
       </Row>
 
       <Row>
-        <Col>
+        <Col className="besttime">
           Parim aeg selleks on{" "}
           {`${bestTimeRange.from}:00st ${bestTimeRange.until}:00ni`}, milleni on
           jäänud
@@ -78,7 +78,7 @@ function Low() {
       </Row>
 
       <Row>
-        <Col>
+        <Col className="timer">
           {showElement === "countdown" && time ? (
             <Countdown date={time} />
           ) : (
