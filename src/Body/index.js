@@ -17,6 +17,7 @@ import ErrorModal from "../ErrorModal";
 import moment from 'moment';
 import { useSelector, useDispatch } from "react-redux";
 import { setBestTimeRange, setWorstTimeRange } from "../services/stateService";
+import { useLocation } from "react-router-dom";
 
 function Body() {
   const [showError, setShowError] = useState(false);
@@ -28,10 +29,10 @@ function Body() {
   const [x2, setX2] = useState(0);
 
   const hourValue = useSelector((state) => state.hourValue);
-  const radioValue = useSelector((state) => state.radioValue);
   const selectedCountry = useSelector((state) => state.selectedCountry); 
   
   const dispach = useDispatch();
+  const location = useLocation();
   
   useEffect(() => {
     (async function () {
@@ -69,7 +70,7 @@ function Body() {
           return;
         }); 
         areaPrices.sort((a, b) => a.result - b.result);
-        if (radioValue === 'low'){
+        if (location.pathname.includes('/low') || location.pathname === '/'){
           dispach(setBestTimeRange({
           from: futureData[areaPrices[0].i + hourValue].x,
           until: futureData[areaPrices[0].i + hourValue].x,
@@ -94,7 +95,7 @@ function Body() {
         setErrorMessage(error.message);
       }
     })();
-  }, [hourValue, data, dispach, radioValue, selectedCountry, response ]);
+  }, [hourValue, data, dispach, selectedCountry, response, location.pathname ]);
 
 
   return (
@@ -126,7 +127,7 @@ function Body() {
               />
               <Line type="monotone" dataKey="y" stroke="#82ca9d" />
               <ReferenceLine x={hourNowI} stroke="red" />
-              { radioValue === 'low'
+              { location.pathname.includes('/low') || location.pathname === '/'
                 ? <ReferenceArea x1={x1} x2={x2} stroke="green" fill="green" opacity={0.5} />
                 : <ReferenceArea x1={x1} x2={x2} stroke="red" fill="red" opacity={0.5} />
               }
