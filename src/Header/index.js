@@ -8,20 +8,21 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import { getCurrentPrice } from '../services/apiService';
 import ErrorModal from '../ErrorModal';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentPrice, setRadioValue, setSelectedCountry  } from '../services/stateService';
+import { setCurrentPrice, setSelectedCountry  } from '../services/stateService';
 import './header.scss';
 import Logo from './Logo.png';
-
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function Header ()  {
  
   const [showError, setShowError] = useState (false);
   const [errorMessage, setErrorMessage] = useState ('');
   const currentPrice = useSelector((state) => state.currentPrice); 
-  const radioValue = useSelector((state) => state.radioValue);
   const selectedCountry = useSelector((state) => state.selectedCountry);
   
   const dispach = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const countries = [
     {key:'ee', title: 'Eesti'},
@@ -44,37 +45,31 @@ function Header ()  {
   
   }, [dispach, selectedCountry]);
   
-
-
 const radios = [
-  { name: 'Low Price', value: 'low' },
-  { name: 'High Price', value: 'high' },
+  { name: 'Low Price', value: '/low' },
+  { name: 'High Price', value: '/high' },
   
 ];
 
 function handeleOnChangePrice(event) {
-  dispach(setRadioValue(event.currentTarget.value));
+ 
+  return navigate(event.currentTarget.value);
 };
 
 function handeleOnSelectCountry (key, event) {
   dispach(setSelectedCountry(countries.find(country => country.key === key)));
 };
 
-console.log(currentPrice);
-
-
-
 return (
 <>
 <Row>
   <Col> 
-    <h3 >
+    <h3 className="mt-2 ml-3">
     <img src={Logo} width="300" alt='Elektrikell-logo'/>
-
     </h3>
   </Col>
     <Col > 
-      <DropdownButton className="float-end"
+      <DropdownButton className="float-end mt-2" 
             as={ButtonGroup}
             key='Secondary'
             id={`dropdown-variants-${'Secondary'}`}
@@ -90,16 +85,19 @@ return (
       <Row>
     <Col> <div className='status'>Status</div></Col>
         <Col className="text-center">
-          <ButtonGroup >
+
+          {/* <Link to="/high"> High</Link>  <Link to="/low"> Low</Link> */}
+
+          <ButtonGroup>
             {radios.map((radio, idx) => (
-                <ToggleButton
+                <ToggleButton   
                   key={idx}
                   id={`radio-${idx}`}
                   type="radio"
                   variant={idx % 2 ?  'outline-danger' : 'outline-success'}
                   name="radio"
                   value={radio.value}
-                  checked={radioValue === radio.value}
+                  checked={location.pathname === radio.value || (idx === 0 && location.pathname === '/')}
                   onChange={handeleOnChangePrice}
                   >
                   {radio.name} 

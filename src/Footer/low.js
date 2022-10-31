@@ -10,16 +10,18 @@ import moment from "moment";
 import './footer.scss';
 import { useSelector, useDispatch } from "react-redux";
 import { setHourValue } from "../services/stateService";
-
+import { useParams, useNavigate } from "react-router-dom";
 
 function Low() {
   const [showElement, setShowElement] = useState("countdown");
   const [time, setTime] = useState(null);
   const hourValue = useSelector((state) => state.hourValue);
   const dispatch = useDispatch();
+  const { hours } = useParams();
+  const navigate = useNavigate();
   const currentPrice = useSelector((state) => state.currentPrice);
   const bestTimeRange = useSelector((state) => state.bestTimeRange);
-
+   console.log('hours');
   
   const cheapHours = [
     { label: "1h", value: 1 },
@@ -33,7 +35,8 @@ function Low() {
   useEffect(() => {
     const countDownUntil = moment.unix(bestTimeRange.timestamp).toDate();
     setTime(countDownUntil);
-  }, [bestTimeRange]);
+    dispatch(setHourValue(+hours || 1));
+  }, [bestTimeRange, hours, dispatch]);
 
   function handleOnChange(event) {
     const hour = event.currentTarget.value;
@@ -42,6 +45,7 @@ function Low() {
     } else {
       setShowElement("right now");
     }
+    navigate('/low/' + hour)
     dispatch(setHourValue(+hour));
   }
 
@@ -49,7 +53,7 @@ function Low() {
     <div className="text-center">
       <Row>
         <Col>
-          <ButtonGroup className="hourButton">
+          <ButtonGroup className="hourButton mt-4 ml-3">
             {cheapHours.map((hour) => (
               <ToggleButton
                 className="duration"
@@ -70,7 +74,7 @@ function Low() {
       </Row>
 
       <Row>
-        <Col className="besttime">
+        <Col className="besttime mt-4 ml-2">
           Parim aeg selleks on{" "}
           {`${bestTimeRange.from}:00st ${bestTimeRange.until}:00ni`}, milleni on
           jäänud
@@ -78,7 +82,7 @@ function Low() {
       </Row>
 
       <Row>
-        <Col className="timer">
+        <Col className="timer m-3">
           {showElement === "countdown" && time ? (
             <Countdown date={time} />
           ) : (
@@ -88,7 +92,7 @@ function Low() {
       </Row>
 
       <Row>
-        <Col>
+        <Col className="besttime">
           Siis on kilovatt-tunni hind {Math.round(bestTimeRange.bestPrice / 10)}{" "}
           senti, mis on{" "}
           {Math.round(100 - (bestTimeRange.bestPrice / currentPrice) * 100)} %

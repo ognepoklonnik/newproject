@@ -2,6 +2,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useSelector } from 'react-redux';
 
+
 function High() {
   const currentPrice = useSelector((state) => state.currentPrice); 
   const worstTimeRange = useSelector((state) => state.worstTimeRange); 

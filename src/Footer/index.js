@@ -1,17 +1,18 @@
 import Low from "./low";
 import High from "./high";
-import { useSelector } from "react-redux";
+import { Route, Routes } from "react-router-dom";
+
 
 function Footer(props) {
-  const radioValue = useSelector((state) => state.radioValue);
 
   return (
     <div id="footer">
-      {radioValue === "low" ? (
-        <Low {...props} />
-      ) : (
-        <High />
-      )}
+      <Routes>
+        <Route path="/" element={<Low {...props} />} />
+        <Route path="/low" element={<Low {...props} />} />
+        <Route path="/low/:hours" element={<Low {...props} />} />
+        <Route path="/high" element={<High />} />
+      </Routes>
     </div>
   );
 }
