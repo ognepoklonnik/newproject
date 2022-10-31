@@ -13,7 +13,8 @@ import './header.scss';
 import Logo from './Logo.png';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-function Header ()  {
+
+function Header (props)  {
  
   const [showError, setShowError] = useState (false);
   const [errorMessage, setErrorMessage] = useState ('');
@@ -86,7 +87,7 @@ return (
     <Col> <div className='status'>Status</div></Col>
         <Col className="text-center">
 
-          {/* <Link to="/high"> High</Link>  <Link to="/low"> Low</Link> */}
+          {/* <Link to="/high"><High /></Link>  <Link to="/low"> <Low {...props} /></Link> */}
 
           <ButtonGroup>
             {radios.map((radio, idx) => (
@@ -97,7 +98,7 @@ return (
                   variant={idx % 2 ?  'outline-danger' : 'outline-success'}
                   name="radio"
                   value={radio.value}
-                  checked={location.pathname === radio.value || (idx === 0 && location.pathname === '/')}
+                  checked={location.pathname.includes(radio.value) || (idx === 0 && location.pathname === '/')}
                   onChange={handeleOnChangePrice}
                   >
                   {radio.name} 

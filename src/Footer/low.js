@@ -21,7 +21,6 @@ function Low() {
   const navigate = useNavigate();
   const currentPrice = useSelector((state) => state.currentPrice);
   const bestTimeRange = useSelector((state) => state.bestTimeRange);
-   console.log('hours');
   
   const cheapHours = [
     { label: "1h", value: 1 },
