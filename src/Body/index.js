@@ -80,16 +80,11 @@ function Body() {
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="x" />
-              <YAxis dataKey="y" />
+              <YAxis dataKey="price" />
               <Tooltip />
 
-              <Line
-                type="monotone"
-                dataKey="pv"
-                stroke="#8884d8"
-                activeDot={{ r: 8 }}
-              />
-              <Line type="monotone" dataKey="y" stroke="#82ca9d" />
+              
+              <Line type="monotone" dataKey="price" stroke="#82ca9d" />
               <ReferenceLine
                 x={data.priceData?.findIndex((d) => d.now)}
                 stroke="red"

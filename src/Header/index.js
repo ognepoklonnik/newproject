@@ -37,7 +37,6 @@ function Header (props)  {
       try {
         const response = await getCurrentPrice(selectedCountry);
         dispach(setCurrentPrice(response.data[0].price));
-        console.log(response.data);
       } catch (error) {
         setShowError(true);
         setErrorMessage(error.message);

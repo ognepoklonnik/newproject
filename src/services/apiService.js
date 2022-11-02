@@ -32,7 +32,7 @@ export function handleData(
     const hour =  moment.unix(dataObject.timestamp).format("HH");
       return {
       x: hour,
-      y: dataObject.price,
+      price : dataObject.price,
       timestamp: dataObject.timestamp,
       now: hour === moment().format("HH"),
     };
@@ -49,7 +49,7 @@ export function handleData(
     const partData = arr.slice(i, i + hourValue + 1);
     if (partData.length === hourValue + 1) {
       let result = 0;
-      for (const p of partData) result += p.y;
+      for (const p of partData) result += p.price;
       areaPrices.push({ result, i });
     }
     return;
@@ -61,7 +61,7 @@ export function handleData(
         from: futureData[areaPrices[0].i + hourValue].x,
         until: futureData[areaPrices[0].i + hourValue].x,
         timestamp: futureData[areaPrices[0].i].timestamp,
-        bestPrice: futureData[areaPrices[0].i].y,
+        bestPrice: futureData[areaPrices[0].i].price,
       })
     );
   } else {
@@ -70,7 +70,7 @@ export function handleData(
       setWorstTimeRange({
         from: futureData[areaPrices[0].i + hourValue].x,
         until: futureData[areaPrices[0].i + hourValue].x,
-        worstPrice: futureData[areaPrices[0].i].y,
+        worstPrice: futureData[areaPrices[0].i].price,
       }));
   }
   
