@@ -8,6 +8,8 @@ export async function getCurrentPrice(selectedCountry) {
   return response.json();
 }
 
+export const localUrl = '/newproject';
+
 export async function getPriceData() {
   const start = moment().utc().subtract(10, "hours").format();
   const end = moment().utc().add(30, "hours").format();
@@ -55,7 +57,7 @@ export function handleData(
     return;
   });
   areaPrices.sort((a, b) => a.result - b.result);
-  if (location.pathname.includes("/low") || location.pathname === "/") {
+  if (location.pathname.includes("/low") || !location.pathname.includes('/high')) {
     dispach(
       setBestTimeRange({
         from: futureData[areaPrices[0].i + hourValue].x,

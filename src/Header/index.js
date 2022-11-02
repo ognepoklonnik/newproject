@@ -5,7 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import { getCurrentPrice } from '../services/apiService';
+import { getCurrentPrice, localUrl } from '../services/apiService';
 import ErrorModal from '../ErrorModal';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentPrice, setSelectedCountry  } from '../services/stateService';
@@ -20,7 +20,7 @@ function Header (props)  {
   const [errorMessage, setErrorMessage] = useState ('');
   const currentPrice = useSelector((state) => state.currentPrice); 
   const selectedCountry = useSelector((state) => state.selectedCountry);
-  
+  const hourValue = useSelector((state) => state.hourValue);
   const dispach = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -53,7 +53,7 @@ const radios = [
 
 function handeleOnChangePrice(event) {
  
-  return navigate(event.currentTarget.value);
+  return navigate(localUrl + event.currentTarget.value + `/${hourValue}`);
 };
 
 function handeleOnSelectCountry (key, event) {
@@ -96,7 +96,7 @@ return (
                   variant={idx % 2 ?  'outline-danger' : 'outline-success'}
                   name="radio"
                   value={radio.value}
-                  checked={location.pathname.includes(radio.value) || (idx === 0 && location.pathname === '/')}
+                  checked={location.pathname.includes(radio.value) || (idx === 0 && !location.pathname.includes("/low") && !location.pathname.includes('/high'))}
                   onChange={handeleOnChangePrice}
                   >
                   {radio.name} 
