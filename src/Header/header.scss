@@ -11,3 +11,11 @@
     text-align: center;
     background-image: radial-gradient( circle farthest-corner at 10% 20%, #5dfe60 0%, #28d1ab 90% );
 }
+
+#radio-head {
+    grid-gap: inherit;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}

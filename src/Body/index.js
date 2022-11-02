@@ -68,8 +68,8 @@ function Body() {
         <Col>
           <ResponsiveContainer width="100%" height="100%" minHeight="500px">
             <LineChart
-              width={500}
-              height={300}
+              width={700}
+              height={150}
               data={data.priceData}
               margin={{
                 top: 5,

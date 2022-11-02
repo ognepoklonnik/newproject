@@ -73,7 +73,7 @@ function Low() {
       </Row>
 
       <Row>
-        <Col className="besttime mt-4 ml-2">
+        <Col className="besttime mt-3 ml-2 fs-5">
           Parim aeg selleks on{" "}
           {`${bestTimeRange.from}:00st ${bestTimeRange.until}:00ni`}, milleni on
           jäänud
@@ -81,7 +81,7 @@ function Low() {
       </Row>
 
       <Row>
-        <Col className="timer m-3">
+        <Col className="timer m-1 ml-1">
           {showElement === "countdown" && time ? (
             <Countdown date={time} />
           ) : (
@@ -91,7 +91,7 @@ function Low() {
       </Row>
 
       <Row>
-        <Col className="besttime">
+        <Col className="besttime fs-3 m-0 text-success">
           Siis on kilovatt-tunni hind {Math.round(bestTimeRange.bestPrice / 10)}{" "}
           senti, mis on{" "}
           {Math.round(100 - (bestTimeRange.bestPrice / currentPrice) * 100)} %
