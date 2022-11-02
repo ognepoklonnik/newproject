@@ -85,13 +85,12 @@ return (
   </Row>
       <Row>
     <Col> <div className='status'>Status</div></Col>
-        <Col className="text-center">
+        <Col id="radio-head">
 
-          {/* <Link to="/high"><High /></Link>  <Link to="/low"> <Low {...props} /></Link> */}
-
-          <ButtonGroup>
+          <ButtonGroup className="align-bottom ">
             {radios.map((radio, idx) => (
                 <ToggleButton   
+                  className='shadowp-3 rounded space-between me-3 '
                   key={idx}
                   id={`radio-${idx}`}
                   type="radio"
@@ -106,7 +105,7 @@ return (
              ))} 
           </ButtonGroup>
         </Col>
-      <Col className="text-end" >HIND {currentPrice} €/KWh </Col>
+      <Col> <p className='fs-3 text-end me-5 mb-0 fw-bold'>{Math.round(currentPrice) / 10}</p>  <p className="mb-0 me-4 fs-5 font-monospace text-end">senti / kilovatt-tund</p> </Col>
       </Row>
       <ErrorModal errorMessage={errorMessage} show={showError} setShow={setShowError} />
       </>
